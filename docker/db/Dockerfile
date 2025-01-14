@@ -1,0 +1,9 @@
+FROM postgres
+
+ENV DB_HOST=postgres
+ENV DB_PORT=5432
+ENV POSTGRES_PASSWORD 123
+ENV POSTGRES_DB db
+ENV POSTGRES_USER piotr
+
+COPY . /app/database
