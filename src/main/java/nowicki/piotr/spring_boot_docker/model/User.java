@@ -1,4 +1,4 @@
-package nowicki.piotr.spring_boot_docker.entity;
+package nowicki.piotr.spring_boot_docker.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,6 +21,8 @@ public class User {
     public String name;
     @Column
     public String password;
+    @Column(unique = true)
+    public String email;
     @Column
     public String photo_url;
 }
