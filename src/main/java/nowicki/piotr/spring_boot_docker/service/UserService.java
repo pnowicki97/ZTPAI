@@ -38,13 +38,13 @@ public class UserService {
         var savedUser = userRepository.save(user);
         return userMapper.toUserResponseDto(savedUser);
     }
-    public UserResponseDto findById(@PathVariable("user-id") Long id){
+    public UserResponseDto findById(@PathVariable("user-id") String id){
         return userRepository.findById(id).map(userMapper::toUserResponseDto).orElse(null);
     }
     public List<UserResponseDto> findByName(@PathVariable("user-name") String name){
         return userRepository.findByNameLike(name).stream().map(userMapper::toUserResponseDto).collect(Collectors.toList());
     }
-    public void deleteById(@PathVariable("user-id") Long id){
+    public void deleteById(@PathVariable("user-id") String id){
         userRepository.deleteById(id);
     }
 }

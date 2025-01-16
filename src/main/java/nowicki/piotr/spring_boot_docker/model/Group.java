@@ -1,22 +1,23 @@
 package nowicki.piotr.spring_boot_docker.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 @Table(name = "groups")
 public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
     @Column
-    private String name;
+    public String name;
     @Column
-    private String photoUrl;
+    public String photoUrl;
+
 }

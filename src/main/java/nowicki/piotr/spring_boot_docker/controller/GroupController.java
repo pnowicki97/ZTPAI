@@ -1,9 +1,9 @@
 package nowicki.piotr.spring_boot_docker.controller;
 
 import jakarta.validation.Valid;
-import nowicki.piotr.spring_boot_docker.dto.UserDto;
-import nowicki.piotr.spring_boot_docker.dto.UserResponseDto;
-import nowicki.piotr.spring_boot_docker.service.UserService;
+import nowicki.piotr.spring_boot_docker.dto.GroupDto;
+import nowicki.piotr.spring_boot_docker.model.Group;
+import nowicki.piotr.spring_boot_docker.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,34 +15,34 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/user")
-public class UserController {
+@RequestMapping(path = "api/v1/group")
+public class GroupController {
 
-    private final UserService userService;
+    private final GroupService groupService;
+
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public GroupController(GroupService groupService) {
+        this.groupService = groupService;
     }
+
     @GetMapping
-    public List<UserResponseDto> findAllUsers(){
-        return userService.findAllUsers();
+    public List<GroupDto> findAllGroups(){
+        return groupService.findAllGroups();
     }
+
     @PostMapping
-    public UserResponseDto saveUser(@RequestBody @Valid UserDto dto){
-        return userService.saveUser(dto);
+    public GroupDto saveGroup(@RequestBody @Valid GroupDto dto){
+        return groupService.saveGroup(dto);
     }
-    @GetMapping("/{user-id}")
-    public UserResponseDto findById(@PathVariable("user-id") String id){
-        return userService.findById(id);
+    @GetMapping("/{group-id}")
+    public GroupDto findGroupById(@PathVariable("group-id") String id){
+        return groupService.findById(id);
     }
-    @GetMapping("/name/{user-name}")
-    public List<UserResponseDto> findByName(@PathVariable("user-name") String name){
-        return userService.findByName(name);
+    @DeleteMapping("/{group-id}")
+    public void deleteGroup(@PathVariable("group-id") String id){
+        groupService.deleteById(id);
     }
-    @DeleteMapping("/{user-id}")
-    public void deleteById(@PathVariable("user-id") String id){
-        userService.deleteById(id);
-    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
         var errors = new HashMap<String, String>();
@@ -53,5 +53,4 @@ public class UserController {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-
 }
