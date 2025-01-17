@@ -41,8 +41,12 @@ public class UserService {
     public UserResponseDto findById(@PathVariable("user-id") String id){
         return userRepository.findById(id).map(userMapper::toUserResponseDto).orElse(null);
     }
-    public List<UserResponseDto> findByName(@PathVariable("user-name") String name){
-        return userRepository.findByNameLike(name).stream().map(userMapper::toUserResponseDto).collect(Collectors.toList());
+    public UserResponseDto findByName(@PathVariable("user-name") String name){
+        return userRepository.findByNameLike(name).map(userMapper::toUserResponseDto).orElse(null);
+    }
+
+    public UserResponseDto findByEmail(@PathVariable("user-email") String email){
+        return userRepository.findByEmail(email).map(userMapper::toUserResponseDto).orElse(null);
     }
     public void deleteById(@PathVariable("user-id") String id){
         userRepository.deleteById(id);

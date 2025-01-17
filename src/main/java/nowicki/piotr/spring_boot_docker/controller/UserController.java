@@ -36,7 +36,7 @@ public class UserController {
         return userService.findById(id);
     }
     @GetMapping("/name/{user-name}")
-    public List<UserResponseDto> findByName(@PathVariable("user-name") String name){
+    public UserResponseDto findByName(@PathVariable("user-name") String name){
         return userService.findByName(name);
     }
     @DeleteMapping("/{user-id}")

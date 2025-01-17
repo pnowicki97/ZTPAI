@@ -1,5 +1,6 @@
 package nowicki.piotr.spring_boot_docker;
 
+import nowicki.piotr.spring_boot_docker.model.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
