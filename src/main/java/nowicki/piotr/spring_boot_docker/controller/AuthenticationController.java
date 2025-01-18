@@ -2,7 +2,7 @@ package nowicki.piotr.spring_boot_docker.controller;
 
 import lombok.RequiredArgsConstructor;
 import nowicki.piotr.spring_boot_docker.auth.AuthenticationRequest;
-import nowicki.piotr.spring_boot_docker.auth.AuthentincationResponse;
+import nowicki.piotr.spring_boot_docker.auth.AuthenticationResponse;
 import nowicki.piotr.spring_boot_docker.auth.RegisterRequest;
 import nowicki.piotr.spring_boot_docker.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,11 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthentincationResponse> register(@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(authenticationService.register(request));
     }
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthentincationResponse> register(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }

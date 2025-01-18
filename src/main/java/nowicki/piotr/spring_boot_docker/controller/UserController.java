@@ -53,5 +53,4 @@ public class UserController {
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
-
 }

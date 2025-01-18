@@ -7,7 +7,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +24,7 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column
+    @Column(unique = true)
     public String name;
     @Column
     public String password;
@@ -33,15 +35,19 @@ public class User implements UserDetails {
     @Column
     @Enumerated
     public Role role;
+    @ManyToMany
+    @JoinTable(
+            name = "user_group",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<Group> groups = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
-    @Override
-    public String getPassword() {
-        return password;
-    }
+
     @Override
     public String getUsername() {
         return name;

@@ -11,12 +11,13 @@
 </head>
 
 <body class="flex-column-center-center">
-    <form th:action="@{/auth/login}" th:object="${user}" method="POST" class="loginForm flex-column-center-center">
+    <form th:action="@{/auth/registerUser}" th:object="${user}" method="POST" class="loginForm flex-column-center-center">
         <input type="text" id="name" th:field="*{name}" name="username" placeholder="username"></input>
+        <input type="text" id="email" th:field="*{email}" name="email" placeholder="email"></input>
         <input type="password" id="password" th:field="*{password}"name="password" placeholder="password"></input>
         <label><?= $message; ?></label>
         <div class="loginForm flex-row-center-center">
-            <button name="login" th:action="@{/auth/login}" value="login" type="submit">Log in</button>
+            <button name="signup" value="signup" type="submit">Sign up</button>
         </div>
     </form>
 </body>

@@ -1,9 +1,6 @@
 package nowicki.piotr.spring_boot_docker.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
@@ -13,4 +10,5 @@ public class AuthenticationRequest {
 
     private String name;
     private String password;
+//    private String email;
 }

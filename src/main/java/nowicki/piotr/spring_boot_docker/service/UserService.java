@@ -42,7 +42,7 @@ public class UserService {
         return userRepository.findById(id).map(userMapper::toUserResponseDto).orElse(null);
     }
     public UserResponseDto findByName(@PathVariable("user-name") String name){
-        return userRepository.findByNameLike(name).map(userMapper::toUserResponseDto).orElse(null);
+        return userRepository.findByName(name).map(userMapper::toUserResponseDto).orElse(null);
     }
 
     public UserResponseDto findByEmail(@PathVariable("user-email") String email){

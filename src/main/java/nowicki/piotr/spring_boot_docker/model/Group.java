@@ -3,6 +3,9 @@ package nowicki.piotr.spring_boot_docker.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +21,7 @@ public class Group {
     public String name;
     @Column
     public String photoUrl;
+    @ManyToMany(mappedBy = "groups")
+    private Set<User> users = new HashSet<>();
 
 }
