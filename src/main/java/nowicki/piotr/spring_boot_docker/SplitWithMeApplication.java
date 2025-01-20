@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SplitWithMeApplication {
 
-	@GetMapping("/")
-	public String home() {
-		return "login";
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(SplitWithMeApplication.class, args);
 	}

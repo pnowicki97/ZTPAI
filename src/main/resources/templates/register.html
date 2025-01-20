@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="public/scripts/mobile-nav.js" defer></script>
-    <title><?= $title; ?></title>
 </head>
 
 <body class="flex-column-center-center">
@@ -15,7 +12,6 @@
         <input type="text" id="name" th:field="*{name}" name="username" placeholder="username"></input>
         <input type="text" id="email" th:field="*{email}" name="email" placeholder="email"></input>
         <input type="password" id="password" th:field="*{password}"name="password" placeholder="password"></input>
-        <label><?= $message; ?></label>
         <div class="loginForm flex-row-center-center">
             <button name="signup" value="signup" type="submit">Sign up</button>
         </div>

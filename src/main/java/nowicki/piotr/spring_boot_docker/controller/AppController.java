@@ -1,5 +1,7 @@
 package nowicki.piotr.spring_boot_docker.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import nowicki.piotr.spring_boot_docker.auth.AuthenticationRequest;
@@ -27,8 +29,7 @@ public class AppController {
     public String register(@ModelAttribute("user") RegisterRequest registerRequest, Model model){
         try {
             AuthenticationResponse response = authenticationService.register(registerRequest);
-            model.addAttribute("message", "User successfully submitted!");
-            return "login";
+            return "redirect:/auth/login";
         }
         catch (Exception e) {
             model.addAttribute("message", "Registration failed: " + e.getMessage());
@@ -41,11 +42,19 @@ public class AppController {
         return "login";
     }
     @PostMapping("/login")
-    public String login(@ModelAttribute("user") AuthenticationRequest authenticationRequest, Model model, HttpSession session){
+    public String login(@ModelAttribute("user") AuthenticationRequest authenticationRequest,Model model, HttpServletResponse response){
         try {
-            AuthenticationResponse response = authenticationService.authenticate(authenticationRequest);
+            AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
             model.addAttribute("message", "User successfully logged!");
-            session.setAttribute("jwtToken",response.getToken());
+            model.addAttribute("jwtToken", authenticationResponse.getToken());
+            Cookie jwtCookie = new Cookie("jwtToken", authenticationResponse.getToken());
+            jwtCookie.setHttpOnly(true); // Prevent access via JavaScript
+            jwtCookie.setSecure(false); // Set to true in production (requires HTTPS)
+            jwtCookie.setPath("/"); // Cookie is sent with all requests to this domain
+            jwtCookie.setMaxAge(24 * 60 * 60); // Token is valid for 7 days
+
+            // Add the cookie to the response
+            response.addCookie(jwtCookie);
             return "redirect:/api/v1/user";
         }
         catch (Exception e) {
