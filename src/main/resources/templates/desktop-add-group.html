@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+
+<body>
+<form id="data" th:action="@{/groups/addGroup}" th:object="${group}" method="POST"> </form>
+<form id="get_back" th:action="@{/users/showAllGroups}"></form>
+
+    <div class="container flex-column-center-center">
+
+        <label>Add Group</label>
+
+        <div class="container flex-row-center-center">
+
+            <template id="expanse-template">
+                <div class="element">
+                    <label></label>
+                    <paidBy></paidBy>
+                    <amount></amount>
+                </div>
+            </template>
+
+                <div th:object="${group}" class="loginForm flex-column-center-center">
+                <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
+                <input form="data" th:field="*{photoUrl}" type="text" name="photoUrl" placeholder="photo"></input>
+                </div>
+
+            <div th:action="@{/groups/addGroup}" method="GET" class="groups flex-column-center-center">
+                <div th:each="user, iterStat : ${users}">
+                    <div class="element flex-row-center-center">
+                        <div class="flex-row-center-center">
+                            <label th:text="${user.name}" />
+                        </div>
+                        <input form="data" type="checkbox" name="checkbox[]" value="${user.id}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="homeButtons flex-row-center-center">
+
+            <button type="submit" form="get_back">Back</button>
+            <button type="submit" form="data">Add</button>
+    </div>
+
+</body>
+</html>

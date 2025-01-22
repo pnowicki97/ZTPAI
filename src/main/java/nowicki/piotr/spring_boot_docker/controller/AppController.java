@@ -55,7 +55,7 @@ public class AppController {
 
             // Add the cookie to the response
             response.addCookie(jwtCookie);
-            return "redirect:/api/v1/user";
+            return "redirect:/users/showAllGroups";
         }
         catch (Exception e) {
             model.addAttribute("message", "Login failed: " + e.getMessage());

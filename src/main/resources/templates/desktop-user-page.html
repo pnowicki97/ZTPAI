@@ -1,22 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+    <title><?= $title; ?></title>
 </head>
 
 <body >
-<script>
-    const jwtToken = [[${jwtToken}]]; // Thymeleaf inserts the token here
-    if (jwtToken) {
-        localStorage.setItem("jwtToken", jwtToken); // Store it in localStorage for client-side use
-    }
-</script>
     <div class="container flex-column-center-center">
+
+        <template id="group-template">
+            <div class="element">
+                <img src="">
+                <label></label>
+            </div>
+        </template>
 
         <label>Your Groups</label>
 
+        <form th:action="@{/groups/showAllGroups}" method="GET" class="groups flex-row-center-center">
+            <div th:each="group, iterStat : ${groups}">
+                <button type="submit" th:name="groups[__${iterStat.index}__].name" class="element flex-row-center-center">
+                    <img src="${group.photoUrl}" alt="">
+                    <label th:text="${group.name}" />
+                </button>
+            </div>
+        </form>
+
+    </div>
+    <div class="homeButtons flex-row-center-center">
+        <form th:action="@{/auth/login}" class = "homeButtons">
+            <button type="submit">Log out</button>
+        </form>
+        <form th:action="@{/groups/addGroup}" class = "homeButtons">
+            <button type="submit">Add Group</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -10,10 +10,11 @@ public class GroupMapper {
     public Group toGroup(GroupDto dto){
         var group = new Group();
         group.name = dto.name();
+        group.photoUrl = dto.photoUrl();
         return group;
     }
 
     public GroupDto toGroupDto(Group group){
-        return new GroupDto(group.name);
+        return new GroupDto(group.name, group.photoUrl);
     }
 }
