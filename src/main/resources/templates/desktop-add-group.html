@@ -31,16 +31,16 @@
                 <input form="data" th:field="*{photoUrl}" type="text" name="photoUrl" placeholder="photo"></input>
                 </div>
 
-            <div th:action="@{/groups/addGroup}" method="GET" class="groups flex-column-center-center">
+            <form th:action="@{/groups/addGroup}" method="POST" class="groups flex-column-center-center">
                 <div th:each="user, iterStat : ${users}">
                     <div class="element flex-row-center-center">
                         <div class="flex-row-center-center">
                             <label th:text="${user.name}" />
                         </div>
-                        <input form="data" type="checkbox" name="checkbox[]" value="${user.id}" />
+                        <input form="data" type="checkbox" name="userIds" th:value="${user.id}" />
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
 
     </div>

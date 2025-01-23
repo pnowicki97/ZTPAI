@@ -58,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             for (Cookie cookie : request.getCookies()) {
                 if ("jwtToken".equals(cookie.getName()) && cookie.getValue() != null) {
                     jwtToken = cookie.getValue();
-                    System.out.println("############" + cookie.getValue());
                     userName = jwtService.extractUserName(jwtToken);
                     if (userName!=null && SecurityContextHolder.getContext().getAuthentication() == null){
                         UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);

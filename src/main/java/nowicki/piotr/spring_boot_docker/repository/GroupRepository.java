@@ -10,4 +10,5 @@ import java.util.List;
 public interface GroupRepository extends JpaRepository<Group, String> {
 
     List<Group> findByNameLike(String name);
+    List<Group> findByUsers_Id(String userId);
 }
