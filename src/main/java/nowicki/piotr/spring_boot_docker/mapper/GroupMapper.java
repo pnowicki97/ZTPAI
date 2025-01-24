@@ -16,10 +16,11 @@ public class GroupMapper {
         var group = new Group();
         group.name = dto.name();
         group.photoUrl = dto.photoUrl();
+        group.setId(dto.id());
         return group;
     }
 
     public GroupDto toGroupDto(Group group){
-        return new GroupDto(group.name, group.photoUrl);
+        return new GroupDto(group.name, group.photoUrl, group.getId());
     }
 }

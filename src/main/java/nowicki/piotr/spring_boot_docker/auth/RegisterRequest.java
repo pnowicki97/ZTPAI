@@ -1,5 +1,6 @@
 package nowicki.piotr.spring_boot_docker.auth;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Data

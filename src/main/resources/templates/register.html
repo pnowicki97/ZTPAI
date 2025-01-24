@@ -13,7 +13,7 @@
         <input type="text" id="name" th:field="*{name}" name="username" placeholder="username"></input>
         <input type="text" id="email" th:field="*{email}" name="email" placeholder="email"></input>
         <input type="password" id="password" th:field="*{password}" name="password" placeholder="password"></input>
-        <label th:field="${message}"></label>
+        <label th:text="${message}"></label>
         <div class="loginForm flex-row-center-center">
             <button name="signup" value="signup" type="submit">Sign up</button>
         </div>

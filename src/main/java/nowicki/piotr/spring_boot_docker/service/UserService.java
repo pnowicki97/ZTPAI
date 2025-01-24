@@ -41,6 +41,9 @@ public class UserService {
     public UserResponseDto findById(@PathVariable("user-id") String id){
         return userRepository.findById(id).map(userMapper::toUserResponseDto).orElse(null);
     }
+    public List<UserResponseDto> findByGroupId(String id){
+        return userRepository.findByGroups_Id(id).stream().map(userMapper::toUserResponseDto).collect(Collectors.toList());
+    }
     public UserResponseDto findByName(@PathVariable("user-name") String name){
         return userRepository.findByName(name).map(userMapper::toUserResponseDto).orElse(null);
     }

@@ -23,5 +23,6 @@ public class Group {
     public String photoUrl;
     @ManyToMany(mappedBy = "groups")
     private Set<User> users = new HashSet<>();
-
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<Expense > expenses = new HashSet<>();
 }

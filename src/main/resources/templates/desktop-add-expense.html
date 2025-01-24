@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+
+<body>
+<form id="data" th:action="@{/expenses/addExpenses}" method="POST"> </form>
+<form id="get_back" th:action="@{/groups}"  ></form>
+
+    <div class="container flex-column-center-center">
+
+        <label th:text="${group.name}" />
+
+        <template id="expense-template">
+            <div class="element">
+                <label></label>
+                <paidBy></paidBy>
+                <amount></amount>
+            </div>
+        </template>
+
+
+        <div th:object="${expense}" class="loginForm flex-column-center-center">
+            <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
+            <input form="data" th:field="*{amount}" type="text" name="amount" placeholder="amount"></input>
+            <label>Paid by</label>
+
+            <select form="data" name="userId">
+                <option value="">Select User</option>
+                <option th:each="user, iterStat : ${users}"
+                        th:value="${user.id}"
+                        th:text="${user.name}">
+                </option>
+            </select>
+        </div>
+        <label th:text="${message}"></label>
+
+    </div>
+    <div class="homeButtons flex-row-center-center">
+
+            <button type="submit" th:value="${group.id}" th:name="selectedGroup" form="get_back">Back</button>
+            <button type="submit" th:value="${group.id}" th:name="groupId" form="data">Add</button>
+    </div>
+
+</body>
+</html>

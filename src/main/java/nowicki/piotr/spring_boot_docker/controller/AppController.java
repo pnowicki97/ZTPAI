@@ -27,6 +27,10 @@ public class AppController {
     }
     @PostMapping("/registerUser")
     public String register(@ModelAttribute("user") RegisterRequest registerRequest, Model model){
+        if (registerRequest.getName().isEmpty()||registerRequest.getPassword().isEmpty()||registerRequest.getEmail().isEmpty()){
+            model.addAttribute("message", "Registration failed: Name, email and password can not be empty");
+            return "register";
+        }
         try {
             AuthenticationResponse response = authenticationService.register(registerRequest);
             return "redirect:/auth/login";
@@ -53,9 +57,8 @@ public class AppController {
             jwtCookie.setPath("/"); // Cookie is sent with all requests to this domain
             jwtCookie.setMaxAge(24 * 60 * 60); // Token is valid for 7 days
 
-            // Add the cookie to the response
             response.addCookie(jwtCookie);
-            return "redirect:/users/showAllGroups";
+            return "redirect:/users";
         }
         catch (Exception e) {
             model.addAttribute("message", "Login failed: " + e.getMessage());

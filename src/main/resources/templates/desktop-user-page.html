@@ -21,14 +21,14 @@
 
         <label>Your Groups</label>
 
-        <form th:action="@{/groups/showAllExpanses}" method="GET" class="groups flex-row-center-center">
-            <div th:each="group, iterStat : ${groups}">
-                <button type="submit" th:name="groups[__${iterStat.index}__].name" class="element flex-row-center-center">
-                    <img src="${group.photoUrl}" alt="">
+        <form th:action="@{/groups}" method="GET" class="groups flex-row-center-center">
+            <div th:each="group : ${groups}" class="element flex-row-center-center">
+                <button type="submit" th:value="${group.id}" th:name="selectedGroup" class=" flex-row-center-center">
                     <label th:text="${group.name}" />
                 </button>
             </div>
         </form>
+
 
     </div>
     <div class="homeButtons flex-row-center-center">

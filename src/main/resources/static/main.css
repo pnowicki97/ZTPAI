@@ -107,6 +107,24 @@ body {
   gap: 1em;
 }
 
+.groups > .element > button , .groups > button {
+  width: 330px;
+  height: 60px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(111,173,113,1);
+  font-family: Outfit;
+  font-weight: Bold;
+  font-size: 24px;
+}
+
 .groups > .element > .flex-row-center-center{
   gap: 2em;
   
