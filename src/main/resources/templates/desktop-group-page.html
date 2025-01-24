@@ -22,18 +22,17 @@
         <label th:text="${selectedGroup.name}"/>
 
         <div class="groups flex-row-center-center">
-            <div th:each="expense, iterStat : ${expenses}">
-                <div class="element flex-column-center-center">
+            <div class="element flex-column-center-center" th:each="expense, iterStat : ${expenses}">
                     <div class="flex-row-center-center">
                         <label th:text="${expense.name}"/>
                         <label th:text="${expense.amount}"/>
                     </div>
-                    <label>Paid by</label>
-                    <label th:text="${expense.paidBy.name}"/>
+                    <div>
+                        <label class="paidBy">Paid by</label>
+                        <label th:text="${expense.paidBy.name}"/>
+                    </div>
             </div>
         </div>
-
-
     </div>
     <div class="homeButtons flex-row-center-center">
         <form th:action="@{/users}" class = "homeButtons">

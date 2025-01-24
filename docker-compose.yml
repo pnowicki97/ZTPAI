@@ -18,10 +18,17 @@ services:
     networks:
       - pg-network
     restart: always
-
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # AMQP port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq  # Persist data
 networks:
   pg-network:
 
 volumes:
   postgresql:
   pgadmin:
+  rabbitmq-data:

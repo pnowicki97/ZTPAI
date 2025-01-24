@@ -60,11 +60,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     jwtToken = cookie.getValue();
                     userName = jwtService.extractUserName(jwtToken);
                     if (userName!=null && SecurityContextHolder.getContext().getAuthentication() == null){
-                        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
-                        if (jwtService.isTokenValid(jwtToken,userDetails)){
-                            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                        try {
+                            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
+                            if (jwtService.isTokenValid(jwtToken,userDetails)){
+                                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                                SecurityContextHolder.getContext().setAuthentication(authToken);
+                            }
+                        }
+                        catch (Exception e){
+                            filterChain.doFilter(request, response);
+                            return;
                         }
                     }
                     filterChain.doFilter(request, response);

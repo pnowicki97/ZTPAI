@@ -108,8 +108,8 @@ body {
 }
 
 .groups > .element > button , .groups > button {
-  width: 330px;
-  height: 60px;
+  width: calc(100%);
+  height: calc(100%);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -188,19 +188,30 @@ body {
     border-top-right-radius: 2px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    gap: 2em;
+    padding: 1em;
+    gap: 1em;
   }
-
-  .groups > .element > label, .groups > .element > input, .groups > .element > .paidBy {
+  .groups > .element > button , .groups > button {
+    width: calc(100%);
+    height: calc(100%);
     font-size: 15px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  .groups > .element > label, .groups > .element > input, .groups > .element > .paidBy {
+    font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align:center;
+        font-family: Outfit;
+        font-weight: Medium;
   }
   .groups > .element > img{
-    width: 20px;
-    height: 20px;
-  }
-
-  .groups > .element > .paidBy{
-    color: gray;
+    width: 10px;
+    height: 10px;
   }
 
 }

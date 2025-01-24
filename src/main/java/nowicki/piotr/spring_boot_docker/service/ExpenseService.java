@@ -35,7 +35,6 @@ public class ExpenseService {
         return dto;
     }
     public ExpenseDto saveExpense(ExpenseDto dto, String userId, String groupId) {
-        // Fetch the User and Group
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Group group = groupRepository.findById(groupId)

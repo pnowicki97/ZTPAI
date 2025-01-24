@@ -52,10 +52,10 @@ public class AppController {
             model.addAttribute("message", "User successfully logged!");
             model.addAttribute("jwtToken", authenticationResponse.getToken());
             Cookie jwtCookie = new Cookie("jwtToken", authenticationResponse.getToken());
-            jwtCookie.setHttpOnly(true); // Prevent access via JavaScript
-            jwtCookie.setSecure(false); // Set to true in production (requires HTTPS)
-            jwtCookie.setPath("/"); // Cookie is sent with all requests to this domain
-            jwtCookie.setMaxAge(24 * 60 * 60); // Token is valid for 7 days
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setSecure(false);
+            jwtCookie.setPath("/");
+            jwtCookie.setMaxAge(24 * 60 * 60);
 
             response.addCookie(jwtCookie);
             return "redirect:/users";

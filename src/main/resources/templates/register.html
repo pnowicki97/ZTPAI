@@ -9,6 +9,7 @@
 </head>
 
 <body class="flex-column-center-center">
+    <div class="flex-column-center-center">
     <form th:action="@{/auth/registerUser}" th:object="${user}" method="POST" class="loginForm flex-column-center-center">
         <input type="text" id="name" th:field="*{name}" name="username" placeholder="username"></input>
         <input type="text" id="email" th:field="*{email}" name="email" placeholder="email"></input>
@@ -16,6 +17,12 @@
         <label th:text="${message}"></label>
         <div class="loginForm flex-row-center-center">
             <button name="signup" value="signup" type="submit">Sign up</button>
+        </div>
+    </form>
+    </div>
+    <form th:action="@{/auth/login}" method="GET" class="loginForm flex-column-center-center">
+        <div class="loginForm flex-row-center-center">
+            <button name="signup" value="signup" type="submit">Login</button>
         </div>
     </form>
 </body>
