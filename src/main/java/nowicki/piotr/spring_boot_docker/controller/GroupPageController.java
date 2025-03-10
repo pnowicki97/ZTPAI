@@ -58,6 +58,6 @@ public class GroupPageController {
         GroupDto selectedGroup = groupService.findById(groupName);
         model.addAttribute("expenses",expenses);
         model.addAttribute("selectedGroup", selectedGroup);
-        return "desktop-group-page";
+        return "group-page";
     }
 }

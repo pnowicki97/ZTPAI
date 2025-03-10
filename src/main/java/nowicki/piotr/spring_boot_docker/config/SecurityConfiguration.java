@@ -27,7 +27,7 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.
-                        requestMatchers("/auth/**","/static/**","/main.css").permitAll()
+                        requestMatchers("/auth/**","/static/**","/main.css","/**").permitAll() //TODO: enable authentication before tests
                         .anyRequest().authenticated()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authenticationProvider(authenticationProvider)

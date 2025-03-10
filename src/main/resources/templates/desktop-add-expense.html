@@ -9,6 +9,11 @@
 </head>
 
 <body>
+<div class="menu flex-row-center-center">
+    <button>home</button>
+    <button>calendar</button>
+    <button th:action="@{/groups}"> groups</button>
+</div>
 <form id="data" th:action="@{/expenses/addExpenses}" method="POST"> </form>
 <form id="get_back" th:action="@{/groups}"  ></form>
 
