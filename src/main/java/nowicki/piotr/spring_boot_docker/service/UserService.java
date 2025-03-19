@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public UserResponseDto saveUser(UserDto dto) {
-        var user = userMapper.toUser(dto);
+        User user = userMapper.toUser(dto);
         var savedUser = userRepository.save(user);
         return userMapper.toUserResponseDto(savedUser);
     }

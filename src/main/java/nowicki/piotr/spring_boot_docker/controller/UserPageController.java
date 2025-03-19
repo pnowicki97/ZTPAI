@@ -4,11 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import nowicki.piotr.spring_boot_docker.dto.EventDto;
 import nowicki.piotr.spring_boot_docker.dto.GroupDto;
 import nowicki.piotr.spring_boot_docker.dto.UserDto;
 import nowicki.piotr.spring_boot_docker.dto.UserResponseDto;
 import nowicki.piotr.spring_boot_docker.model.User;
 import nowicki.piotr.spring_boot_docker.model.Group;
+import nowicki.piotr.spring_boot_docker.service.EventService;
 import nowicki.piotr.spring_boot_docker.service.GroupService;
 import nowicki.piotr.spring_boot_docker.service.UserService;
 import org.springframework.http.HttpEntity;
@@ -31,13 +33,16 @@ public class UserPageController {
 
     private final UserService userService;
     private final GroupService groupService;
+    private final EventService eventService;
 
     @GetMapping
     public String showAllGroups(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         List<GroupDto> groups = groupService.findAllByUserId(user.getId());
+        List<EventDto> events = eventService.findAllByUserId(user.getId());
         model.addAttribute("groups",groups);
-        return "groups-overview-page";
+        model.addAttribute("events",events);
+        return "home-page";
     }
 }

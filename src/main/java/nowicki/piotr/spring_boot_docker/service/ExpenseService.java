@@ -1,7 +1,6 @@
 package nowicki.piotr.spring_boot_docker.service;
 
 import nowicki.piotr.spring_boot_docker.dto.ExpenseDto;
-import nowicki.piotr.spring_boot_docker.dto.GroupDto;
 import nowicki.piotr.spring_boot_docker.mapper.ExpenseMapper;
 import nowicki.piotr.spring_boot_docker.model.Expense;
 import nowicki.piotr.spring_boot_docker.model.Group;
@@ -30,24 +29,25 @@ public class ExpenseService {
         this.expenseMapper = expenseMapper;
     }
     public ExpenseDto saveExpense(ExpenseDto dto) {
-        var expense = expenseMapper.toExpense(dto);
+        Expense expense = expenseMapper.toExpense(dto);
         expenseRepository.save(expense);
         return dto;
     }
-    public ExpenseDto saveExpense(ExpenseDto dto, String userId, String groupId) {
+    public void saveExpense(ExpenseDto dto, String userId, String groupId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
-        var expense = expenseMapper.toExpense(dto);
+        Expense expense = expenseMapper.toExpense(dto);
         expense.setUser(user);
         expense.setGroup(group);
         expenseRepository.save(expense);
 
-        return dto;
     }
 
-    public List<ExpenseDto> findAllExpenses(){return expenseRepository.findAll().stream().map(expenseMapper::toExpenseDto).collect(Collectors.toList());}
+    public List<ExpenseDto> findAllExpenses(){
+        return expenseRepository.findAll().stream().map(expenseMapper::toExpenseDto).collect(Collectors.toList());
+    }
     public List<ExpenseDto> findAllByUserId(String userId) {
         return expenseRepository.findByUser_Id(userId).stream().map(expenseMapper::toExpenseDto).collect(Collectors.toList());
     }

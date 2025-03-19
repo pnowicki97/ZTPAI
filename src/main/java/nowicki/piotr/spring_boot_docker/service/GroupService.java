@@ -3,6 +3,7 @@ package nowicki.piotr.spring_boot_docker.service;
 import nowicki.piotr.spring_boot_docker.dto.GroupDto;
 import nowicki.piotr.spring_boot_docker.mapper.GroupMapper;
 import nowicki.piotr.spring_boot_docker.model.User;
+import nowicki.piotr.spring_boot_docker.model.Group;
 import nowicki.piotr.spring_boot_docker.repository.GroupRepository;
 import nowicki.piotr.spring_boot_docker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class GroupService {
     }
 
     public GroupDto saveGroup(GroupDto dto){
-        var group = groupMapper.toGroup(dto);
+        Group group = groupMapper.toGroup(dto);
         groupRepository.save(group);
         return dto;
     }
     public GroupDto saveGroup(GroupDto dto, List<String> userIds){
-        var group = groupMapper.toGroup(dto);
+        Group group = groupMapper.toGroup(dto);
         Set<User> users = new HashSet<>(userRepository.findAllById(userIds));
         group.setUsers(users);
         for (User user : users) {

@@ -14,17 +14,17 @@
     <button>calendar</button>
     <button th:action="@{/groups}"> groups</button>
 </div>
-<form id="data" th:action="@{/expenses/addExpenses}" method="POST"> </form>
+<form id="data" th:action="@{/duties/addDuties}" method="POST"> </form>
 <form id="get_back" th:action="@{/groups}"  ></form>
 
     <div class="container flex-column-center-center">
 
         <label th:text="${group.name}" />
 
-        <div th:object="${expense}" class="loginForm flex-column-center-center">
+        <div th:object="${duty}" class="loginForm flex-column-center-center">
             <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
-            <input form="data" th:field="*{amount}" type="text" name="amount" placeholder="amount"></input>
-            <label>Paid by</label>
+            <input form="data" th:field="*{value}" type="text" name="value" placeholder="value"></input>
+            <label>Done by</label>
 
             <select form="data" name="userId">
                 <option value="">Select User</option>

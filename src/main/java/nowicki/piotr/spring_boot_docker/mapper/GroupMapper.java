@@ -10,17 +10,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class GroupMapper {
-
-    private UserMapper userMapper;
     public Group toGroup(GroupDto dto){
-        var group = new Group();
+        Group group = new Group();
         group.name = dto.name();
-        group.photoUrl = dto.photoUrl();
         group.setId(dto.id());
         return group;
     }
 
     public GroupDto toGroupDto(Group group){
-        return new GroupDto(group.name, group.photoUrl, group.getId());
+        return new GroupDto(group.name, group.getId());
     }
 }

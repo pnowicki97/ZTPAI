@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ExpenseMapper {
-    private UserMapper userMapper;
     public Expense toExpense(ExpenseDto dto){
-        var expense = new Expense();
+        Expense expense = new Expense();
         expense.name = dto.name();
         expense.amount = dto.amount();
         expense.setUser(dto.paidBy());

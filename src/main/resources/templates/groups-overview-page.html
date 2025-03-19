@@ -11,13 +11,13 @@
 <body >
 <div class="menu flex-row-center-center">
     <form th:action="@{/users}">
-        <button>home</button>
+        <button>Home</button>
     </form>
     <form th:action="@{/calendar}">
-        <button>calendar</button>
+        <button>Your account</button>
     </form>
-    <form th:action="@{/groups}">
-        <button>groups</button>
+    <form th:action="@{/auth/login}">
+        <button type="submit">Log out</button>
     </form>
 </div>
     <div class="container flex-column-center-center">
@@ -38,7 +38,6 @@
                 </button>
             </div>
         </form>
-
 
     </div>
     <div class="homeButtons flex-row-center-center">

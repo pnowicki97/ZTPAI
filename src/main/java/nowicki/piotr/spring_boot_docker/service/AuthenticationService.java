@@ -28,7 +28,7 @@ public class AuthenticationService {
     private final RabbitTemplate rabbitTemplate;
 
     public AuthenticationResponse register(RegisterRequest request){
-        var user = User.builder().name(request.getName()).password(passwordEncoder.encode(request.getPassword())).email(request.getEmail()).role(Role.USER).build();
+        User user = User.builder().name(request.getName()).password(passwordEncoder.encode(request.getPassword())).email(request.getEmail()).role(Role.USER).build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         EmailMessage emailMessage = new EmailMessage();
@@ -42,7 +42,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getName(),request.getPassword()));
-        var user = userRepository.findByName(request.getName()).orElseThrow();
+        User user = userRepository.findByName(request.getName()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }

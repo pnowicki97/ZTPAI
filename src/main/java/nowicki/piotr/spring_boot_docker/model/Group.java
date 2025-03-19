@@ -19,10 +19,12 @@ public class Group {
     private String id;
     @Column
     public String name;
-    @Column
-    public String photoUrl;
     @ManyToMany(mappedBy = "groups")
     private Set<User> users = new HashSet<>();
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private Set<Expense > expenses = new HashSet<>();
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<Event > events = new HashSet<>();
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private Set<Duty > duties = new HashSet<>();
 }

@@ -9,20 +9,23 @@
 </head>
 
 <body>
-<div class="menu flex-row-center-center">
-    <button>home</button>
-    <button>calendar</button>
-    <button th:action="@{/groups}"> groups</button>
-</div>
-    <div class="container flex-column-center-center">
 
-        <template id="expense-template">
-            <div class="element">
-                <label></label>
-                <paidBy></paidBy>
-                <amount></amount>
-            </div>
-        </template>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
+<div class="menu flex-row-center-center">
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/calendar}">
+        <button>Your account</button>
+    </form>
+    <form th:action="@{/auth/login}">
+        <button type="submit">Log out</button>
+    </form>
+</div>
+<div class="flex-row-center-center">
+    <div class="container flex-column-center-center">
 
         <label th:text="${selectedGroup.name}"/>
 
@@ -38,14 +41,104 @@
                     </div>
             </div>
         </div>
-    </div>
-    <div class="homeButtons flex-row-center-center">
-        <form th:action="@{/users}" class = "homeButtons">
-            <button type="submit">Back</button>
-        </form>
+
         <form th:action="@{/expenses/addExpense}" class = "homeButtons">
             <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Add Expense</button>
         </form>
+
+        <div class="groups flex-row-center-center">
+            <div class="element flex-column-center-center" th:each="duty, iterStat : ${duties}">
+                <div class="flex-row-center-center">
+                    <label th:text="${duty.name}"/>
+                    <label th:text="${duty.value}"/>
+                </div>
+                <div>
+                    <label class="paidBy">Paid by</label>
+                    <label th:text="${duty.user.name}"/>
+                </div>
+            </div>
+        </div>
+        <form th:action="@{/duties/addDuty}" class = "homeButtons">
+            <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Add Duty</button>
+        </form>
     </div>
+    <div id="calendar"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var eventsFromServer = /*[[${events}]]*/ [];
+            const selectedGroup = /*[[${selectedGroup.id}]]*/;
+            console.log(selectedGroup);
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'en', // Set your locale
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                events: eventsFromServer, // Fetch events from Spring backend
+                selectable: true,
+                select: function(info) {
+                    // Prompt the user for event title
+                    var title = prompt('Enter event title:');
+
+                    if (title) {
+                        let startStr = info.startStr;
+                        let endStr = info.endStr;
+                        startStr += 'T00:00:01';
+                        endStr += 'T00:00:01';
+
+                        // Create event object
+                        var newEvent = {
+                            title: title,
+                            start: startStr,
+                            end: endStr
+                        };
+                        // Send event data to server
+                        const url = '/calendar/addEvents?selectedGroup='+selectedGroup;
+                        console.log("Constructed URL:", url); // Log the URL
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(newEvent)
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Add event to calendar
+                                calendar.addEvent(newEvent);
+                            } else {
+                                alert('Failed to add event.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred.');
+                        });
+                    }
+                },
+                eventClick: function(info) {
+                    // Handle event click (e.g., show event details)
+                    console.log('Event: ' + info.event.title);
+                },
+                editable: true, // Allow event dragging and resizing
+                eventDrop: function(info) {
+                    // Handle event drop (e.g., update event date on server)
+                    console.log(info.event.title + " was dropped on " + info.event.start.toISOString());
+                },
+                eventResize: function(info) {
+                    // Handle event resize (e.g., update event duration on server)
+                    console.log(info.event.title + " was resized to " + info.event.end.toISOString());
+                }
+            });
+            calendar.render();
+        });
+    </script>
+</div>
+
 </body>
 </html>

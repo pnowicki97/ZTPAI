@@ -2,14 +2,10 @@ package nowicki.piotr.spring_boot_docker.controller;
 
 import lombok.RequiredArgsConstructor;
 import nowicki.piotr.spring_boot_docker.auth.RegisterRequest;
-import nowicki.piotr.spring_boot_docker.dto.ExpenseDto;
-import nowicki.piotr.spring_boot_docker.dto.GroupDto;
-import nowicki.piotr.spring_boot_docker.dto.UserResponseDto;
+import nowicki.piotr.spring_boot_docker.dto.*;
 import nowicki.piotr.spring_boot_docker.model.Group;
 import nowicki.piotr.spring_boot_docker.model.User;
-import nowicki.piotr.spring_boot_docker.service.ExpenseService;
-import nowicki.piotr.spring_boot_docker.service.GroupService;
-import nowicki.piotr.spring_boot_docker.service.UserService;
+import nowicki.piotr.spring_boot_docker.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +23,8 @@ public class GroupPageController {
     private final GroupService groupService;
     private final UserService userService;
     private final ExpenseService expenseService;
+    private final DutyService dutyService;
+    private final EventService eventService;
 
     @GetMapping("/addGroup")
     public String showAddGroupForm(Model model){
@@ -55,9 +53,14 @@ public class GroupPageController {
     @GetMapping
     public String showAllExpenses(@RequestParam("selectedGroup") String groupName, Model model){
         List<ExpenseDto> expenses = expenseService.findAllByGroupId(groupName);
+        List<DutyDto> duties = dutyService.findAllByGroupId(groupName);
         GroupDto selectedGroup = groupService.findById(groupName);
+        List<EventDto> events = eventService.findAllByGroupId(groupName);
         model.addAttribute("expenses",expenses);
         model.addAttribute("selectedGroup", selectedGroup);
+        model.addAttribute("duties",duties);
+        model.addAttribute("events",events);
         return "group-page";
     }
 }
+

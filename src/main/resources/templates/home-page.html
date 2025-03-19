@@ -8,43 +8,64 @@
     <link rel="stylesheet" type="text/css" href="/main.css">
 </head>
 
-<body >
-<div class="menu flex-row-center-center">
-    <form th:action="@{/users}">
-        <button>home</button>
-    </form>
-    <form th:action="@{/calendar}">
-        <button>calendar</button>
-    </form>
-    <form th:action="@{/groups}">
-        <button>groups</button>
-    </form>
-</div>
-    <div class="container flex-column-center-center">
+<body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
 
-        <template id="group-template">
-            <div class="element">
-                <img src="">
-                <label></label>
-            </div>
-        </template>
-
-        <label>Your Groups</label>
-
-        <form th:action="@{/groups}" method="GET" class="groups flex-row-center-center">
-            <div th:each="group : ${groups}" class="element flex-row-center-center">
-                <button type="submit" th:value="${group.id}" th:name="selectedGroup" class=" flex-row-center-center">
-                    <label th:text="${group.name}" />
-                </button>
-            </div>
+    <div class="menu flex-row-center-center">
+        <form th:action="@{/users}">
+            <button>Home</button>
         </form>
-
-
-    </div>
-    <div class="homeButtons flex-row-center-center">
-        <form th:action="@{/auth/login}" class = "homeButtons">
+        <form th:action="@{/calendar}">
+            <button>Your account</button>
+        </form>
+        <form th:action="@{/auth/login}">
             <button type="submit">Log out</button>
         </form>
+    </div>
+    <div class="flex-row-center-center">
+        <div class="container flex-column-center-center">
+
+            <template id="group-template">
+                <div class="element">
+                    <img src="">
+                    <label></label>
+                </div>
+            </template>
+
+            <label>Your Groups</label>
+
+            <form th:action="@{/groups}" method="GET" class="groups flex-row-center-center">
+                <div th:each="group : ${groups}" class="element flex-row-center-center">
+                    <button type="submit" th:value="${group.id}" th:name="selectedGroup" class=" flex-row-center-center">
+                        <label th:text="${group.name}" />
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="calendar"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+        <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var eventsFromServer = /*[[${events}]]*/ [];
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'en', // Set your locale
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                events: eventsFromServer, // Fetch events from Spring backend
+                selectable: true
+            });
+            calendar.render();
+        });
+        </script>
+    </div>
+    <div class="homeButtons flex-row-center-center">
         <form th:action="@{/groups/addGroup}" class = "homeButtons">
             <button type="submit">Add Group</button>
         </form>
