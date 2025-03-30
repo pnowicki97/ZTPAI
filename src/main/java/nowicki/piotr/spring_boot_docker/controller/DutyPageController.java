@@ -2,9 +2,12 @@ package nowicki.piotr.spring_boot_docker.controller;
 
 import lombok.RequiredArgsConstructor;
 import nowicki.piotr.spring_boot_docker.dto.DutyDto;
+import nowicki.piotr.spring_boot_docker.dto.ExpenseDto;
 import nowicki.piotr.spring_boot_docker.dto.GroupDto;
 import nowicki.piotr.spring_boot_docker.dto.UserResponseDto;
+import nowicki.piotr.spring_boot_docker.model.Balance;
 import nowicki.piotr.spring_boot_docker.model.Duty;
+import nowicki.piotr.spring_boot_docker.service.CalculationsService;
 import nowicki.piotr.spring_boot_docker.service.DutyService;
 import nowicki.piotr.spring_boot_docker.service.GroupService;
 import nowicki.piotr.spring_boot_docker.service.UserService;
@@ -22,6 +25,7 @@ public class DutyPageController {
     private final DutyService dutyService;
     private final UserService userService;
     private final GroupService groupService;
+    private final CalculationsService calculationsService;
     @GetMapping("/addDuty")
     public String showAddDutyForm(@RequestParam("selectedGroup") String groupId, Model model){
         GroupDto selectedGroup = groupService.findById(groupId);
@@ -58,4 +62,20 @@ public class DutyPageController {
         return "redirect:/groups?selectedGroup=" + groupId;
     }
 
+    @GetMapping("/dutiesOverview")
+    public String showExpenseOverview(@RequestParam("selectedGroup") String groupId, Model model){
+        GroupDto selectedGroup = groupService.findById(groupId);
+        model.addAttribute("group", selectedGroup);
+        List<DutyDto> duties = dutyService.findAllByGroupId(groupId);
+
+        model.addAttribute("duties",duties);
+        List<UserResponseDto> userDtoList = userService.findByGroupId(groupId);
+
+        model.addAttribute("users",userDtoList);
+
+        List<Balance> balances = calculationsService.getDutiesBalances(groupId);
+        model.addAttribute("balances", balances);
+
+        return "duties-overview-page";
+    }
 }

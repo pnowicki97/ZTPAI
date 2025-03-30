@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +44,23 @@ public class ExpenseService {
         expense.setUser(user);
         expense.setGroup(group);
         expenseRepository.save(expense);
+    }
 
+    public void saveExpense(ExpenseDto dto, String userId, String groupId, List<String> userIds) {
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found"));
+        Expense expense = expenseMapper.toExpense(dto);
+        Set<User> users = new HashSet<>(userRepository.findAllById(userIds));
+        for (User user : users) {
+            user.getExpenses().add(expense);
+        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        expense.setUsers(users);
+        expense.setUser(user);
+        expense.setGroup(group);
+        expenseRepository.save(expense);
     }
 
     public List<ExpenseDto> findAllExpenses(){
@@ -54,6 +72,10 @@ public class ExpenseService {
 
     public List<ExpenseDto> findAllByGroupId(String groupId) {
         return expenseRepository.findByGroup_Id(groupId).stream().map(expenseMapper::toExpenseDto).collect(Collectors.toList());
+    }
+
+    public List<ExpenseDto> findAllByUserIdAndGroupId(String userId, String groupId){
+        return expenseRepository.findByUser_IdAndGroup_Id(userId, groupId).stream().map(expenseMapper::toExpenseDto).collect(Collectors.toList());
     }
 
     public ExpenseDto findById(@PathVariable("expense-id") String id){

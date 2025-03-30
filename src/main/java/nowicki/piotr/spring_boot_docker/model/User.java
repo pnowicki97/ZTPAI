@@ -41,12 +41,19 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "group_id")
     )
     private Set<Group> groups = new HashSet<>();
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Expense> expenses = new ArrayList<>();
+/*    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Expense> expenses = new ArrayList<>();*/
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Duty> duties = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "user_expense",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "expense_id")
+    )
+    private Set<Expense> expenses = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -30,5 +30,7 @@ public class Expense  {
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private Group group;
+    @ManyToMany(mappedBy = "expenses")
+    private Set<User> users = new HashSet<>();
 
 }

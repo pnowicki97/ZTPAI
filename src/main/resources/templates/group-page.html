@@ -24,43 +24,46 @@
         <button type="submit">Log out</button>
     </form>
 </div>
+
+<div class="flex-column-center-center">
+<label th:text="'Selected group: ' + ${selectedGroup.name}"/>
 <div class="flex-row-center-center">
-    <div class="container flex-column-center-center">
-
-        <label th:text="${selectedGroup.name}"/>
+    <div class="groupContainer flex-column-center-center">
 
         <div class="groups flex-row-center-center">
-            <div class="element flex-column-center-center" th:each="expense, iterStat : ${expenses}">
-                    <div class="flex-row-center-center">
-                        <label th:text="${expense.name}"/>
-                        <label th:text="${expense.amount}"/>
-                    </div>
-                    <div>
-                        <label class="paidBy">Paid by</label>
-                        <label th:text="${expense.paidBy.name}"/>
-                    </div>
+            <label>Expenses</label>
+            <div class="element flex-row-center-center" th:each="expense, iterStat : ${expenses}">
+                <label th:text="${expense.name}"/>
+                <label th:text="${expense.amount}"/>
+                <label th:text="'Paid by ' + ${expense.paidBy.name}"/>
             </div>
         </div>
 
-        <form th:action="@{/expenses/addExpense}" class = "homeButtons">
-            <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Add Expense</button>
-        </form>
+        <div class="homeButtons flex-row-center-center">
+            <form th:action="@{/expenses/addExpense}">
+                <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Add Expense</button>
+            </form>
+            <form th:action="@{/expenses/expensesOverview}">
+                <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Balance</button>
+            </form>
+        </div>
 
         <div class="groups flex-row-center-center">
-            <div class="element flex-column-center-center" th:each="duty, iterStat : ${duties}">
-                <div class="flex-row-center-center">
-                    <label th:text="${duty.name}"/>
-                    <label th:text="${duty.value}"/>
-                </div>
-                <div>
-                    <label class="paidBy">Paid by</label>
-                    <label th:text="${duty.user.name}"/>
-                </div>
+            <div>Duties</div>
+            <div class="element flex-row-center-center" th:each="duty, iterStat : ${duties}">
+                <label th:text="${duty.name}"/>
+                <label th:text="${duty.value}"/>
+                <label th:text="'Done by ' + ${duty.user.name}"/>
             </div>
         </div>
-        <form th:action="@{/duties/addDuty}" class = "homeButtons">
-            <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Add Duty</button>
-        </form>
+        <div class="homeButtons flex-row-center-center">
+            <form th:action="@{/duties/addDuty}">
+                <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Add Duty</button>
+            </form>
+            <form th:action="@{/duties/dutiesOverview}">
+                <button type="submit"  th:value="${selectedGroup.id}" th:name="selectedGroup"> Balance</button>
+            </form>
+        </div>
     </div>
     <div id="calendar"></div>
 
@@ -139,6 +142,6 @@
         });
     </script>
 </div>
-
+</div>
 </body>
 </html>

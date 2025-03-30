@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+
+<body>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
+<div class="menu flex-row-center-center">
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/calendar}">
+        <button>Your account</button>
+    </form>
+    <form th:action="@{/auth/login}">
+        <button type="submit">Log out</button>
+    </form>
+</div>
+<div class="container flex-column-center-center">
+    <label th:text="'Expenses balance for group ' + ${group.name}"/>
+    <div class="groupContainer flex-row-center-center">
+
+        <div class="groups flex-row-center-center">
+            <label>Expenses list</label>
+            <div class="element flex-row-center-center" th:each="expense, iterStat : ${expenses}">
+                <label th:text="${expense.name}"/>
+                <label th:text="${expense.amount}"/>
+                <label th:text="'Paid by ' + ${expense.paidBy.name}"/>
+            </div>
+        </div>
+
+        <div class="groups flex-row-center-center">
+            <label>Balance</label>
+            <div class="element flex-column-center-center" th:each="balance, iterStat : ${balances}">
+                <div class="flex-row-center-center">
+                    <label th:text="${balance.lender.name} + ' gets'"/>
+                    <label th:text="${balance.amount}"/>
+                    <label th:text="'from ' + ${balance.debtor.name}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="homeButtons flex-row-center-center">
+            <form th:action="@{/groups}" class = "homeButtons">
+                <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Back</button>
+            </form>
+            <form th:action="@{/expenses/addExpense}" class = "homeButtons">
+                <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Add Expense</button>
+            </form>
+        </div>
+
+</div>
+
+</body>
+</html>

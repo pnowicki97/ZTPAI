@@ -10,16 +10,22 @@
 
 <body>
 <div class="menu flex-row-center-center">
-    <button>home</button>
-    <button>calendar</button>
-    <button th:action="@{/groups}"> groups</button>
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/calendar}">
+        <button>Your account</button>
+    </form>
+    <form th:action="@{/auth/login}">
+        <button type="submit">Log out</button>
+    </form>
 </div>
 <form id="data" th:action="@{/expenses/addExpenses}" method="POST"> </form>
 <form id="get_back" th:action="@{/groups}"  ></form>
 
+<label th:text="${group.name}"></label>
+<div class="flex-row-center-center">
     <div class="container flex-column-center-center">
-
-        <label th:text="${group.name}" />
 
         <div th:object="${expense}" class="loginForm flex-column-center-center">
             <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
@@ -35,8 +41,19 @@
             </select>
         </div>
         <label th:text="${message}"></label>
-
     </div>
+    <form class="users flex-column-center-center">
+        <label>Select users</label>
+        <div class="element" th:each="user, iterStat : ${users}">
+            <div class="flex-row-center-center">
+                <div class="flex-row-center-center">
+                    <label th:text="${user.name}" />
+                </div>
+                <input form="data" type="checkbox" name="userIds" th:value="${user.id}" />
+            </div>
+        </div>
+    </form>
+</div>
     <div class="homeButtons flex-row-center-center">
 
             <button type="submit" th:value="${group.id}" th:name="selectedGroup" form="get_back">Back</button>

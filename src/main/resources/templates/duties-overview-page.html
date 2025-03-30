@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+
+<body>
+
+<div class="menu flex-row-center-center">
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/calendar}">
+        <button>Your account</button>
+    </form>
+    <form th:action="@{/auth/login}">
+        <button type="submit">Log out</button>
+    </form>
+</div>
+<div class="container flex-column-center-center">
+    <label th:text="'Duties balance for group ' + ${group.name}"/>
+    <div class="groupContainer flex-row-center-center">
+
+        <div class="groups flex-row-center-center">
+            <label>Duties list</label>
+            <div class="element flex-row-center-center" th:each="duty, iterStat : ${duties}">
+                <label th:text="${duty.name}"/>
+                <label th:text="${duty.value}"/>
+                <label th:text="'Done by ' + ${duty.user.name}"/>
+            </div>
+        </div>
+
+        <div class="groups flex-row-center-center">
+            <label>Ranking</label>
+            <div class="element flex-column-center-center" th:each="balance, iterStat : ${balances}">
+                <div class="flex-row-center-center">
+                    <label th:text="${balance.lender.name}"/>
+                    <label th:text="${balance.amount}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="homeButtons flex-row-center-center">
+            <form th:action="@{/groups}" class = "homeButtons">
+                <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Back</button>
+            </form>
+            <form th:action="@{/duties/addDuty}" class = "homeButtons">
+                <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Add Duty</button>
+            </form>
+        </div>
+
+</div>
+
+</body>
+</html>
