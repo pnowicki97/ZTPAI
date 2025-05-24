@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+
+<div class="menu flex-row-center-center">
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/users/changeUser}">
+        <button>Your account</button>
+    </form>
+    <form th:action="@{/auth/login}">
+        <button type="submit">Log out</button>
+    </form>
+</div>
+
+<body class="flex-column-center-center">
+    <div class="flex-column-center-center">
+    <form id="data" th:action="@{/users/changeUser}" th:object="${user}" method="POST" class="loginForm flex-column-center-center">
+        <input type="text" id="name" th:field="*{name}" name="username" placeholder="username"></input>
+        <input type="text" id="email" th:field="*{email}" name="email" placeholder="email"></input>
+        <input type="password" id="password" th:field="*{password}" name="password" placeholder="current password"></input>
+        <input type="password" id="newPassword"  name="newPassword" placeholder="new password"></input>
+        <label for="photoFile" class="photoInput">
+            <input type="file" id="photoFile" name="photoFile" accept="image/*" form="data" style="display: none;"/>
+            <span id="file-upload-text">Choose Photo</span>
+        </label>
+        <span id="photo"></span>
+        <label th:text="${message}"></label>
+        <div class="loginForm flex-row-center-center">
+            <button name="changeData" value="changeData" type="submit">Change Data</button>
+        </div>
+    </form>
+    </div>
+</body>
+</html>

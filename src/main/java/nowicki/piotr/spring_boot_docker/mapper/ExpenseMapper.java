@@ -16,10 +16,11 @@ public class ExpenseMapper {
         expense.amount = dto.amount();
         expense.setUser(dto.paidBy());
         expense.setUsers(dto.users());
+        expense.setPhoto_url(dto.photoUrl());
         return expense;
     }
 
     public ExpenseDto toExpenseDto(Expense expense){
-        return new ExpenseDto(expense.name, expense.amount, expense.getUser(), expense.getUsers());
+        return new ExpenseDto(expense.name, expense.amount, expense.getUser(), expense.getUsers(), expense.getPhoto_url());
     }
 }

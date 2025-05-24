@@ -23,37 +23,26 @@
         <button type="submit">Log out</button>
     </form>
 </div>
-<form id="data" th:action="@{/duties/addDuties}" method="POST" enctype="multipart/form-data"> </form>
+<form id="data" th:action="@{/events/addEvents}" method="POST" enctype="multipart/form-data" > </form>
 <form id="get_back" th:action="@{/groups}"></form>
 <div class="flex-column-center-center">
-    <label th:text="'Add duty for group ' + ${group.name}"></label>
-    <div th:object="${duty}" class="flex-row-center-center">
-        <div class="container flex-row-center-center">
+    <label th:text="'Add event for group ' + ${group.name}"></label>
+    <div class="flex-row-center-center">
+        <div th:object="${event}" class="container flex-row-center-center">
 
             <div class="loginForm flex-column-center-center">
-                <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
-                <input form="data" th:field="*{value}" type="text" name="value" placeholder="value"></input>
+                <input form="data" th:field="*{title}" type="text" name="title" placeholder="title"/>
 
                 <label for="beginDate">Begin Date:</label>
-                <input form="data" type="text" id="beginDate" name="beginDate" th:field="*{beginDate}" placeholder="Begin Date & Time"/>
+                <input form="data" type="text" id="beginDate" name="beginDate" th:field="*{start}" placeholder="Begin Date & Time"/>
 
                 <label for="endDate">End Date:</label>
-                <input form="data" type="text" id="endDate" name="endDate" th:field="*{endDate}" placeholder="End Date & Time"/>
-            </div>
-            <div class="loginForm flex-column-center-center">
+                <input form="data" type="text" id="endDate" name="endDate" th:field="*{end}" placeholder="End Date & Time"/>
                 <label for="photoFile" class="photoInput">
                     <input type="file" id="photoFile" name="photoFile" accept="image/*" form="data" style="display: none;"/>
                     <span id="file-upload-text">Choose Photo</span>
                 </label>
                 <span id="photo"></span>
-                <label>Done by</label>
-                <select form="data" name="userId">
-                    <option value="">Select User</option>
-                    <option th:each="user, iterStat : ${users}"
-                            th:value="${user.id}"
-                            th:text="${user.name}">
-                    </option>
-                </select>
                 <label th:text="${message}"></label>
             </div>
 

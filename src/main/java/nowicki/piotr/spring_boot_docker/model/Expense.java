@@ -22,6 +22,8 @@ public class Expense  {
     private String id;
     @Column
     public String name;
+    @Column
+    public String photo_url;
     @Column(nullable = false)
     public Double amount;
     @ManyToOne

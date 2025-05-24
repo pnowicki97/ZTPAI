@@ -31,16 +31,6 @@ public class CalendarPageController {
     private final UserService userService;
     private final GroupService groupService;
     private final EventService eventService;
-    @GetMapping()
-    public String showAllGroups(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        List<GroupDto> groups = groupService.findAllByUserId(user.getId());
-        List<EventDto> events = eventService.findAllByUserId(user.getId());
-        model.addAttribute("groups",groups);
-        model.addAttribute("events", events);
-        return "calendar-page";
-    }
 
     @PostMapping("/addEvents")
     public String addEvent(@RequestBody EventDto eventDto, @RequestParam("selectedGroup") String groupName, Model model){

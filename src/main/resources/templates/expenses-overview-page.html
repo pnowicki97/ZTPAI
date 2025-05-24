@@ -17,7 +17,7 @@
     <form th:action="@{/users}">
         <button>Home</button>
     </form>
-    <form th:action="@{/calendar}">
+    <form th:action="@{/users/changeUser}">
         <button>Your account</button>
     </form>
     <form th:action="@{/auth/login}">
@@ -26,20 +26,21 @@
 </div>
 <div class="container flex-column-center-center">
     <label th:text="'Expenses balance for group ' + ${group.name}"/>
-    <div class="groupContainer flex-row-center-center">
+    <div class="balanceContainer flex-row-center-center">
 
         <div class="groups flex-row-center-center">
             <label>Expenses list</label>
             <div class="element flex-row-center-center" th:each="expense, iterStat : ${expenses}">
+                <img th:src="${#strings.isEmpty(expense.photoUrl) ? '/images/default_image.png' : expense.photoUrl}" alt=" " class="photo"/>
                 <label th:text="${expense.name}"/>
                 <label th:text="${expense.amount}"/>
                 <label th:text="'Paid by ' + ${expense.paidBy.name}"/>
             </div>
         </div>
 
-        <div class="groups flex-row-center-center">
+        <div class="balances flex-row-center-center">
             <label>Balance</label>
-            <div class="element flex-column-center-center" th:each="balance, iterStat : ${balances}">
+            <div class="balance flex-column-center-center" th:each="balance, iterStat : ${balances}">
                 <div class="flex-row-center-center">
                     <label th:text="${balance.lender.name} + ' gets'"/>
                     <label th:text="${balance.amount}"/>

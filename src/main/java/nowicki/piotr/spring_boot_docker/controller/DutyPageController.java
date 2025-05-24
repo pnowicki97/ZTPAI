@@ -14,7 +14,12 @@ import nowicki.piotr.spring_boot_docker.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.ServletContext;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -26,6 +31,7 @@ public class DutyPageController {
     private final UserService userService;
     private final GroupService groupService;
     private final CalculationsService calculationsService;
+    private final ServletContext servletContext;
     @GetMapping("/addDuty")
     public String showAddDutyForm(@RequestParam("selectedGroup") String groupId, Model model){
         GroupDto selectedGroup = groupService.findById(groupId);
@@ -40,7 +46,7 @@ public class DutyPageController {
         return "desktop-add-duty";
     }
     @PostMapping("/addDuties")
-    public String addDuty(@ModelAttribute("duty") DutyDto dutyDto, @RequestParam("userId") String userId, @RequestParam("groupId") String groupId, Model model){
+    public String addDuty(@ModelAttribute("duty") DutyDto dutyDto, @RequestParam("userId") String userId, @RequestParam("groupId") String groupId, @RequestParam("photoFile") MultipartFile photoFile, Model model) throws IOException {
 
         GroupDto selectedGroup = groupService.findById(groupId);
         model.addAttribute("selectedGroup", selectedGroup);
@@ -48,14 +54,25 @@ public class DutyPageController {
 
         model.addAttribute("duty", new Duty());
         List<UserResponseDto> userDtoList = userService.findByGroupId(groupId);
-
+        if (!photoFile.isEmpty()) {
+            String realPathToUploads = servletContext.getRealPath("/uploads/");
+            File uploadDir = new File(realPathToUploads);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            String originalFilename = photoFile.getOriginalFilename();
+            //TODO: zmienić tak, żeby działało od razu a nie po restarcie
+            File dest = new File("C:\\Users\\nowik\\Documents\\ZTPAI\\SplitWithMe\\src\\main\\resources\\static\\images/" + originalFilename);
+            photoFile.transferTo(dest);
+        }
+        System.out.println("########################"+ dutyDto.name() + " " + dutyDto.beginDate() + " " + dutyDto.endDate());
         model.addAttribute("users",userDtoList);
         if (dutyDto.name().isEmpty()||dutyDto.value() == null||userId.isEmpty()){
             model.addAttribute("message", "Name, amount and done by can not be empty");
             return "desktop-add-duty";
         }
         if (groupId != null) {
-            dutyService.saveDuty(dutyDto, userId, groupId);
+            dutyService.saveDuty(dutyDto, userId, groupId, "/images/" + photoFile.getOriginalFilename());
         } else {
             return "desktop-add-expense";
         }

@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 public class EventMapper {
     public Event toEvent(EventDto dto){
         Event event = new Event();
-        event.name = dto.title();
-        event.setBeginDate(dto.start());
-        event.setEndDate(dto.end());
+        event.title = dto.title();
+        event.setPhoto_url(dto.photoUrl());
+        event.setStart(dto.start());
+        event.setEnd(dto.end());
         return event;
     }
     public EventDto toEventDto(Event event){
-        return new EventDto(event.getName(), event.getBeginDate(), event.getEndDate());
+        return new EventDto(event.getTitle(), event.getPhoto_url(), event.getStart(), event.getEnd());
     }
 }

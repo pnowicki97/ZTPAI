@@ -11,6 +11,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1em;
 }
 
 .flex-column-center-center {
@@ -54,7 +55,7 @@ font-size: 30px;
   font-weight: Bold;
 }
 
-.loginForm > input {
+.loginForm > input{
   font-weight: Medium;
   border: 1px solid rgba(255,255,255,1);
 }
@@ -110,11 +111,20 @@ font-size: 30px;
   background: rgba(42, 65, 112,1);
 }
 
-.groupContainer{
-  width: 50%;
+.groupContainer, .balanceContainer{
+  width: 60%;
   font-size: 30px;
-  padding: 1em;
   gap: 1em;
+}
+
+.balanceContainer{
+  width: 100%;
+  padding: 1em;
+}
+
+.groups > label{
+  width: 100%;
+  text-align: center;
 }
 
 .container {
@@ -122,20 +132,44 @@ font-size: 30px;
   padding: 1em;
 }
 
-.groups, .users{
+.photoInput {
+  width: 330px;
+  height: 60px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(42, 65, 112,1);
+  font-family: Outfit;
+  font-weight: Bold;
+  font-size: 24px;
+}
+
+.groups, .users, .balances{
   width: 100%;
-  max-height: 600px;
+  max-height: 200px;
   overflow: scroll;
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: flex-start;
 }
 
-.users{
-  width: 300px;
+.balances{
+  width: 1000px;
+  max-height: 600px;
 }
 
-.groups > .element, .groups > .balance {
+.users{
+  width: 300px;
+  max-height: 600px;
+}
+
+.groups > .element, .balances > .balance {
   width: 100%;
   border: 1px solid rgba(255,255,255,1);
   border-top-left-radius: 5px;
@@ -145,8 +179,19 @@ font-size: 30px;
   gap: 1em;
 }
 
+.groups > .element{
+  width: 45%;
+  gap: 10px;
+}
+
 .users > .element {
   width: 90%;
+  height: 60px;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 1px solid rgba(255,255,255,1);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -160,16 +205,13 @@ font-size: 30px;
   height: calc(100%);
   color: white;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   background: rgba(42, 65, 112,1);
   font-family: Outfit;
   font-weight: Bold;
   font-size: 24px;
-}
-
-.groups > .element > .flex-row-center-center{
   gap: 1em;
 }
 
@@ -181,6 +223,11 @@ font-size: 30px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align:center;
+}
+
+.photo{
+  width: 40px;
+  height: 40px;
 }
 
 @media only screen and (max-device-width:420px){

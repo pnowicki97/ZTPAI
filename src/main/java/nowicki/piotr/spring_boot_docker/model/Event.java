@@ -7,29 +7,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
+@Table(name = "events")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "events")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private String id;
     @Column
-    public String name;
+    public String title;
+    @Column
+    public String photo_url;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
     private Group group;
-    @Column
-    private LocalDateTime beginDate;
-    @Column
-    private LocalDateTime endDate;
+    @Column(name = "start_date")
+    private LocalDateTime start;
+    @Column(name = "end_date")
+    private LocalDateTime end;
 }

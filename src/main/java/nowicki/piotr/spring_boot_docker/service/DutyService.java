@@ -36,7 +36,7 @@ public class DutyService {
         dutyRepository.save(duty);
         return dto;
     }
-    public DutyDto saveDuty(DutyDto dto, String userId, String groupId) {
+    public DutyDto saveDuty(DutyDto dto, String userId, String groupId, String photoUrl) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Group group = groupRepository.findById(groupId)
@@ -44,6 +44,7 @@ public class DutyService {
         Duty duty = dutyMapper.toDuty(dto);
         duty.setUser(user);
         duty.setGroup(group);
+        duty.setPhoto_url(photoUrl);
         dutyRepository.save(duty);
 
         return dto;

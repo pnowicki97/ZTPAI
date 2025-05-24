@@ -1,5 +1,6 @@
 package nowicki.piotr.spring_boot_docker.controller;
 
+import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import nowicki.piotr.spring_boot_docker.auth.RegisterRequest;
 import nowicki.piotr.spring_boot_docker.dto.*;
@@ -11,7 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +29,7 @@ public class GroupPageController {
     private final ExpenseService expenseService;
     private final DutyService dutyService;
     private final EventService eventService;
+    private final ServletContext servletContext;
 
     @GetMapping("/addGroup")
     public String showAddGroupForm(Model model){
@@ -34,7 +39,7 @@ public class GroupPageController {
         return "desktop-add-group";
     }
     @PostMapping("/addGroup")
-    public String addGroup(@ModelAttribute("group") GroupDto group, @RequestParam(required = false) List<String> userIds, Model model){
+    public String addGroup(@ModelAttribute("group") GroupDto group, @RequestParam(required = false) List<String> userIds, @RequestParam("photoFile") MultipartFile photoFile, Model model) throws IOException {
 
         if (group.name().isEmpty()){
             List<UserResponseDto> userDtoList = userService.findAllUsers();
@@ -42,10 +47,21 @@ public class GroupPageController {
             model.addAttribute("message", "Group name can not be empty");
             return "desktop-add-group";
         }
+        if (!photoFile.isEmpty()) {
+            String realPathToUploads = servletContext.getRealPath("/uploads/");
+            File uploadDir = new File(realPathToUploads);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            String originalFilename = photoFile.getOriginalFilename();
+            //TODO: zmienić tak, żeby działało od razu a nie po restarcie
+            File dest = new File("C:\\Users\\nowik\\Documents\\ZTPAI\\SplitWithMe\\src\\main\\resources\\static\\images/" + originalFilename);
+            photoFile.transferTo(dest);
+        }
         if (userIds != null && !userIds.isEmpty()) {
-            groupService.saveGroup(group, userIds);
+            groupService.saveGroup(group, userIds, "/images/" + photoFile.getOriginalFilename());
         } else {
-            groupService.saveGroup(group);
+            groupService.saveGroup(group, "/images/" + photoFile.getOriginalFilename());
         }
         return "redirect:/users";
     }

@@ -47,6 +47,20 @@ public class EventService {
         return dto;
     }
 
+    public EventDto saveEvent(EventDto dto, String userId, String groupId, String photoUrl) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group not found"));
+        Event event = eventMapper.toEvent(dto);
+        event.setUser(user);
+        event.setGroup(group);
+        event.setPhoto_url(photoUrl);
+        eventRepository.save(event);
+
+        return dto;
+    }
+
     public List<EventDto> findAllEvents(){
         return eventRepository.findAll().stream().map(eventMapper::toEventDto).collect(Collectors.toList());
     }

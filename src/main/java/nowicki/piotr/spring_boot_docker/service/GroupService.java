@@ -36,13 +36,21 @@ public class GroupService {
         groupRepository.save(group);
         return dto;
     }
-    public GroupDto saveGroup(GroupDto dto, List<String> userIds){
+
+    public GroupDto saveGroup(GroupDto dto, String photoUrl){
+        Group group = groupMapper.toGroup(dto);
+        group.setPhoto_url(photoUrl);
+        groupRepository.save(group);
+        return dto;
+    }
+    public GroupDto saveGroup(GroupDto dto, List<String> userIds, String photoUrl){
         Group group = groupMapper.toGroup(dto);
         Set<User> users = new HashSet<>(userRepository.findAllById(userIds));
         group.setUsers(users);
         for (User user : users) {
             user.getGroups().add(group);
         }
+        group.setPhoto_url(photoUrl);
         groupRepository.save(group);
         return dto;
     }

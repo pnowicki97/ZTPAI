@@ -22,6 +22,8 @@ public class Duty {
     private String id;
     @Column
     public String name;
+    @Column
+    public String photo_url;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;

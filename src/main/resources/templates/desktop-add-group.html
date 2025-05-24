@@ -13,14 +13,14 @@
     <form th:action="@{/users}">
         <button>Home</button>
     </form>
-    <form th:action="@{/calendar}">
+    <form th:action="@{/users/changeUser}">
         <button>Your account</button>
     </form>
     <form th:action="@{/auth/login}">
         <button type="submit">Log out</button>
     </form>
 </div>
-<form id="data" th:action="@{/groups/addGroup}" method="POST"> </form>
+<form id="data" th:action="@{/groups/addGroup}" method="POST" enctype="multipart/form-data"> </form>
 <form id="get_back" th:action="@{/users}"></form>
 
     <div class="container flex-column-center-center">
@@ -30,13 +30,21 @@
         <div class="container flex-row-center-center">
             <div th:object="${group}" class="loginForm flex-column-center-center">
                 <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"/>
+                <label for="photoFile" class="photoInput">
+                    <input type="file" id="photoFile" name="photoFile" accept="image/*" form="data" style="display: none;"/>
+                    <span id="file-upload-text">Choose Photo</span>
+                </label>
+                <span id="photo"></span>
             </div>
+            <script th:src="@{/js/form.js}"></script>
+
 
             <form class="users flex-column-center-center">
                 <label>Select users</label>
                 <div class="element" th:each="user, iterStat : ${users}">
                     <div class="flex-row-center-center">
                         <div class="flex-row-center-center">
+                            <img th:src="${#strings.isEmpty(user.photoUrl) ? '/images/default_image.png' : user.photoUrl}" alt=" " class="photo"/>
                             <label th:text="${user.name}"/>
                         </div>
                         <input form="data" type="checkbox" name="userIds" th:value="${user.id}" />

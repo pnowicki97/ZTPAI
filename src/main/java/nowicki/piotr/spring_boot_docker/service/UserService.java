@@ -9,6 +9,8 @@ import nowicki.piotr.spring_boot_docker.mapper.UserMapper;
 import nowicki.piotr.spring_boot_docker.model.User;
 import nowicki.piotr.spring_boot_docker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -36,6 +38,16 @@ public class UserService {
     public UserResponseDto saveUser(UserDto dto) {
         User user = userMapper.toUser(dto);
         var savedUser = userRepository.save(user);
+        return userMapper.toUserResponseDto(savedUser);
+    }
+
+    public UserResponseDto editUser(UserDto dto, String password) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User existingUser = (User) authentication.getPrincipal();
+        existingUser.setName(dto.name());
+        existingUser.setEmail(dto.email());
+        existingUser.setPassword(password);
+        var savedUser =userRepository.save(existingUser);
         return userMapper.toUserResponseDto(savedUser);
     }
     public UserResponseDto findById(@PathVariable("user-id") String id){

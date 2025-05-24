@@ -35,7 +35,7 @@ public class ExpenseService {
         expenseRepository.save(expense);
         return dto;
     }
-    public void saveExpense(ExpenseDto dto, String userId, String groupId) {
+    public void saveExpense(ExpenseDto dto, String userId, String groupId, String photoUrl) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Group group = groupRepository.findById(groupId)
@@ -43,10 +43,11 @@ public class ExpenseService {
         Expense expense = expenseMapper.toExpense(dto);
         expense.setUser(user);
         expense.setGroup(group);
+        expense.setPhoto_url(photoUrl);
         expenseRepository.save(expense);
     }
 
-    public void saveExpense(ExpenseDto dto, String userId, String groupId, List<String> userIds) {
+    public void saveExpense(ExpenseDto dto, String userId, String groupId, List<String> userIds, String photoUrl) {
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group not found"));
@@ -60,6 +61,7 @@ public class ExpenseService {
         expense.setUsers(users);
         expense.setUser(user);
         expense.setGroup(group);
+        expense.setPhoto_url(photoUrl);
         expenseRepository.save(expense);
     }
 

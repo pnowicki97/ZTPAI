@@ -14,7 +14,7 @@
     <form th:action="@{/users}">
         <button>Home</button>
     </form>
-    <form th:action="@{/calendar}">
+    <form th:action="@{/users/changeUser}">
         <button>Your account</button>
     </form>
     <form th:action="@{/auth/login}">
@@ -23,20 +23,21 @@
 </div>
 <div class="container flex-column-center-center">
     <label th:text="'Duties balance for group ' + ${group.name}"/>
-    <div class="groupContainer flex-row-center-center">
+    <div class="balanceContainer flex-row-center-center">
 
         <div class="groups flex-row-center-center">
             <label>Duties list</label>
             <div class="element flex-row-center-center" th:each="duty, iterStat : ${duties}">
+                <img th:src="${#strings.isEmpty(duty.photoUrl) ? '/images/default_image.png' : duty.photoUrl}" alt=" " class="photo"/>
                 <label th:text="${duty.name}"/>
                 <label th:text="${duty.value}"/>
                 <label th:text="'Done by ' + ${duty.user.name}"/>
             </div>
         </div>
 
-        <div class="groups flex-row-center-center">
+        <div class="balances flex-row-center-center">
             <label>Ranking</label>
-            <div class="element flex-column-center-center" th:each="balance, iterStat : ${balances}">
+            <div class="balance flex-column-center-center" th:each="balance, iterStat : ${balances}">
                 <div class="flex-row-center-center">
                     <label th:text="${balance.lender.name}"/>
                     <label th:text="${balance.amount}"/>

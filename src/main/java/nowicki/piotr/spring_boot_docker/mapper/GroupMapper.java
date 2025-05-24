@@ -14,10 +14,11 @@ public class GroupMapper {
         Group group = new Group();
         group.name = dto.name();
         group.setId(dto.id());
+        group.setPhoto_url(dto.photoUrl());
         return group;
     }
 
     public GroupDto toGroupDto(Group group){
-        return new GroupDto(group.name, group.getId());
+        return new GroupDto(group.name, group.getId(), group.getPhoto_url());
     }
 }

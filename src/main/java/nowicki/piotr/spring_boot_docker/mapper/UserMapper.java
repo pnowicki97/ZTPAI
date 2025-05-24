@@ -18,6 +18,6 @@ public class UserMapper {
     }
 
     public UserResponseDto toUserResponseDto(User user){
-        return new UserResponseDto(user.name, user.email, user.getId());
+        return new UserResponseDto(user.name, user.email, user.getId(), user.getPhoto_url());
     }
 }

@@ -19,6 +19,8 @@ public class Group {
     private String id;
     @Column
     public String name;
+    @Column
+    public String photo_url;
     @ManyToMany(mappedBy = "groups")
     private Set<User> users = new HashSet<>();
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)

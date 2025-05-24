@@ -16,7 +16,7 @@
         <form th:action="@{/users}">
             <button>Home</button>
         </form>
-        <form th:action="@{/calendar}">
+        <form th:action="@{/users/changeUser}">
             <button>Your account</button>
         </form>
         <form th:action="@{/auth/login}">
@@ -30,12 +30,18 @@
             <label>Your Groups</label>
 
             <form th:action="@{/groups}" method="GET" class="groups flex-row-center-center">
-                <div th:each="group : ${groups}" class="element flex-row-center-center">
-                    <button type="submit" th:value="${group.id}" th:name="selectedGroup" class=" flex-row-center-center">
+                <div th:each="group : ${groups}" class="element">
+                    <button type="submit" th:value="${group.id}" th:name="selectedGroup" >
+                        <img th:src="${#strings.isEmpty(group.photoUrl) ? '/images/default_image.png' : group.photoUrl}" alt=" " class="photo"/>
                         <label th:text="${group.name}" />
                     </button>
                 </div>
             </form>
+            <div class="homeButtons flex-row-center-center">
+                <form th:action="@{/groups/addGroup}" class = "homeButtons">
+                    <button type="submit">Add Group</button>
+                </form>
+            </div>
         </div>
         <div id="calendar"></div>
 
@@ -59,12 +65,5 @@
         });
         </script>
     </div>
-
-    <div class="homeButtons flex-row-center-center">
-        <form th:action="@{/groups/addGroup}" class = "homeButtons">
-            <button type="submit">Add Group</button>
-        </form>
-    </div>
-
 </body>
 </html>

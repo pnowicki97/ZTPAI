@@ -13,46 +13,54 @@
     <form th:action="@{/users}">
         <button>Home</button>
     </form>
-    <form th:action="@{/calendar}">
+    <form th:action="@{/users/changeUser}">
         <button>Your account</button>
     </form>
     <form th:action="@{/auth/login}">
         <button type="submit">Log out</button>
     </form>
 </div>
-<form id="data" th:action="@{/expenses/addExpenses}" method="POST"> </form>
+<form id="data" th:action="@{/expenses/addExpenses}" method="POST" enctype="multipart/form-data"> </form>
 <form id="get_back" th:action="@{/groups}"  ></form>
+<div class="flex-column-center-center">
 
-<label th:text="${group.name}"></label>
-<div class="flex-row-center-center">
-    <div class="container flex-column-center-center">
+    <label th:text="'Add expense for group ' + ${group.name}"></label>
+    <div class="flex-row-center-center">
+        <div class="container flex-column-center-center">
 
-        <div th:object="${expense}" class="loginForm flex-column-center-center">
-            <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
-            <input form="data" th:field="*{amount}" type="text" name="amount" placeholder="amount"></input>
-            <label>Paid by</label>
-
-            <select form="data" name="userId">
-                <option value="">Select User</option>
-                <option th:each="user, iterStat : ${users}"
-                        th:value="${user.id}"
-                        th:text="${user.name}">
-                </option>
-            </select>
-        </div>
-        <label th:text="${message}"></label>
-    </div>
-    <form class="users flex-column-center-center">
-        <label>Select users</label>
-        <div class="element" th:each="user, iterStat : ${users}">
-            <div class="flex-row-center-center">
-                <div class="flex-row-center-center">
-                    <label th:text="${user.name}" />
-                </div>
-                <input form="data" type="checkbox" name="userIds" th:value="${user.id}" />
+            <div th:object="${expense}" class="loginForm flex-column-center-center">
+                <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
+                <input form="data" th:field="*{amount}" type="text" name="amount" placeholder="amount"></input>
+                <label for="photoFile" class="photoInput">
+                    <input type="file" id="photoFile" name="photoFile" accept="image/*" form="data" style="display: none;"/>
+                    <span id="file-upload-text">Choose Photo</span>
+                </label>
+                <span id="photo"></span>
+                <label>Paid by</label>
+                <select form="data" name="userId">
+                    <option value="">Select User</option>
+                    <option th:each="user, iterStat : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.name}">
+                    </option>
+                </select>
+                <script th:src="@{/js/form.js}"></script>
             </div>
+            <label th:text="${message}"></label>
         </div>
-    </form>
+        <form class="users flex-column-center-center">
+            <label>Select users</label>
+            <div class="element" th:each="user, iterStat : ${users}">
+                <div class="flex-row-center-center">
+                    <div class="flex-row-center-center">
+                        <img th:src="${#strings.isEmpty(user.photoUrl) ? '/images/default_image.png' : user.photoUrl}" alt=" " class="photo"/>
+                        <label th:text="${user.name}" />
+                    </div>
+                    <input form="data" type="checkbox" name="userIds" th:value="${user.id}" />
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
     <div class="homeButtons flex-row-center-center">
 
