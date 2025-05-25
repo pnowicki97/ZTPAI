@@ -36,7 +36,7 @@ public class GroupPageController {
         model.addAttribute("group", new Group());
         List<UserResponseDto> userDtoList = userService.findAllUsers();
         model.addAttribute("users",userDtoList);
-        return "desktop-add-group";
+        return "add-group-page";
     }
     @PostMapping("/addGroup")
     public String addGroup(@ModelAttribute("group") GroupDto group, @RequestParam(required = false) List<String> userIds, @RequestParam("photoFile") MultipartFile photoFile, Model model) throws IOException {
@@ -45,7 +45,7 @@ public class GroupPageController {
             List<UserResponseDto> userDtoList = userService.findAllUsers();
             model.addAttribute("users",userDtoList);
             model.addAttribute("message", "Group name can not be empty");
-            return "desktop-add-group";
+            return "add-group-page";
         }
         if (!photoFile.isEmpty()) {
             String realPathToUploads = servletContext.getRealPath("/uploads/");

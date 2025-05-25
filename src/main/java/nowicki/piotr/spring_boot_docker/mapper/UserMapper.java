@@ -17,6 +17,14 @@ public class UserMapper {
         return user;
     }
 
+    public User toUser(UserResponseDto dto){
+        var user = new User();
+        user.name = dto.name();
+        user.email = dto.email();
+        user.photo_url = dto.photoUrl();
+        return user;
+    }
+
     public UserResponseDto toUserResponseDto(User user){
         return new UserResponseDto(user.name, user.email, user.getId(), user.getPhoto_url());
     }

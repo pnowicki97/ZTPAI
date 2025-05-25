@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+<form id="data" th:action="@{/expenses/addExpenses}" method="POST" enctype="multipart/form-data"> </form>
+
+<body>
+<div class="menu">
+    <form th:action="@{/groups}">
+        <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Back</button>
+    </form>
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/users/changeUser}">
+        <button>Your account</button>
+    </form>
+        <form th:action="@{/auth/login}">
+            <button class="logoutButton" type="submit">Log out</button>
+        </form>
+</div>
+
+<div class="container flex-column-center-center">
+    <div class="groupHeadline">
+        <label>ADD EXPENSE</label>
+    </div>
+    <div class="flex">
+        <div th:object="${expense}">
+            <div class="loginForm flex-column-center-center">
+                <input form="data" th:field="*{name}" type="text" name="name" placeholder="name"></input>
+                <input form="data" th:field="*{amount}" type="text" name="amount" placeholder="amount"></input>
+            </div>
+            <div class="loginForm">
+                <label>Paid by</label>
+                <select form="data" name="userId">
+                    <option value="">Select User</option>
+                    <option th:each="user, iterStat : ${users}"
+                            th:value="${user.id}"
+                            th:text="${user.name}">
+                    </option>
+                </select>
+            </div>
+            <script th:src="@{/js/form.js}"></script>
+        </div>
+        <label for="photoFile" class="photoInput">
+            <input type="file" id="photoFile" name="photoFile" accept="image/*" form="data" style="display: none;"/>
+            <span id="file-upload-text">Choose Photo</span>
+        </label>
+    </div>
+    <span id="file-name"></span>
+    <label th:text="${message}"></label>
+
+    <label>Select users</label>
+
+    <form class="users flex-column-center-center">
+        <div class="element" th:each="user, iterStat : ${users}">
+            <input form="data" type="checkbox" name="userIds" th:value="${user.id}" />
+            <img th:src="${#strings.isEmpty(user.photoUrl) ? '/images/default_image.png' : user.photoUrl}" alt=" " class="photo"/>
+            <label th:text="${user.name}" />
+        </div>
+    </form>
+    <button class="elementButtons" type="submit" th:value="${group.id}" th:name="groupId" form="data">Add</button>
+</div>
+</body>
+</html>

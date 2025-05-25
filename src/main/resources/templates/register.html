@@ -9,20 +9,21 @@
 </head>
 
 <body class="flex-column-center-center">
-    <div class="flex-column-center-center">
     <form th:action="@{/auth/registerUser}" th:object="${user}" method="POST" class="loginForm flex-column-center-center">
+        <img th:src="${'/images/logo.png'}" alt=" " class="logo"/>
         <input type="text" id="name" th:field="*{name}" name="username" placeholder="username"></input>
         <input type="text" id="email" th:field="*{email}" name="email" placeholder="email"></input>
         <input type="password" id="password" th:field="*{password}" name="password" placeholder="password"></input>
-        <label th:text="${message}"></label>
-        <div class="loginForm flex-row-center-center">
+        <div class="loginForm">
             <button name="signup" value="signup" type="submit">Sign up</button>
         </div>
     </form>
-    </div>
+
+    <label th:text="${message}"></label>
+
     <form th:action="@{/auth/login}" method="GET" class="loginForm flex-column-center-center">
-        <div class="loginForm flex-row-center-center">
-            <button name="signup" value="signup" type="submit">Login</button>
+        <div class="loginForm">
+            <button name="signup" value="signup" type="submit" class="registerButton">Back to login</button>
         </div>
     </form>
 </body>

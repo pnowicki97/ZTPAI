@@ -43,7 +43,7 @@ public class DutyPageController {
 
         model.addAttribute("users",userDtoList);
 
-        return "desktop-add-duty";
+        return "add-duty-page";
     }
     @PostMapping("/addDuties")
     public String addDuty(@ModelAttribute("duty") DutyDto dutyDto, @RequestParam("userId") String userId, @RequestParam("groupId") String groupId, @RequestParam("photoFile") MultipartFile photoFile, Model model) throws IOException {
@@ -69,12 +69,12 @@ public class DutyPageController {
         model.addAttribute("users",userDtoList);
         if (dutyDto.name().isEmpty()||dutyDto.value() == null||userId.isEmpty()){
             model.addAttribute("message", "Name, amount and done by can not be empty");
-            return "desktop-add-duty";
+            return "add-duty-page";
         }
         if (groupId != null) {
             dutyService.saveDuty(dutyDto, userId, groupId, "/images/" + photoFile.getOriginalFilename());
         } else {
-            return "desktop-add-expense";
+            return "add-expense-page";
         }
         return "redirect:/groups?selectedGroup=" + groupId;
     }

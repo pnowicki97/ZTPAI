@@ -38,7 +38,7 @@ public class EventPageController {
         model.addAttribute("group", selectedGroup);
 
         model.addAttribute("event", new Event());
-        return "desktop-add-event";
+        return "add-event-page";
     }
     @PostMapping("/addEvents")
     public String addEvent(@ModelAttribute("event") EventDto eventDto, @RequestParam("groupId") String groupId, @RequestParam("photoFile") MultipartFile photoFile, Model model) throws IOException {
@@ -66,12 +66,12 @@ public class EventPageController {
         model.addAttribute("users",userDtoList);
         if (eventDto.title().isEmpty()){
             model.addAttribute("message", "Name, and done by can not be empty");
-            return "desktop-add-event";
+            return "add-event-page";
         }
         if (groupId != null) {
             eventService.saveEvent(eventDto, user.getId(), groupId, "/images/" + photoFile.getOriginalFilename());
         } else {
-            return "desktop-add-event";
+            return "add-event-page";
         }
         return "redirect:/groups?selectedGroup=" + groupId;
     }

@@ -10,54 +10,70 @@
 
 <body>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-
-<div class="menu flex-row-center-center">
+<div class="menu">
+    <form th:action="@{/groups}">
+        <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Back</button>
+    </form>
     <form th:action="@{/users}">
         <button>Home</button>
     </form>
     <form th:action="@{/users/changeUser}">
         <button>Your account</button>
     </form>
-    <form th:action="@{/auth/login}">
-        <button type="submit">Log out</button>
-    </form>
+        <form th:action="@{/auth/login}">
+            <button class="logoutButton" type="submit">Log out</button>
+        </form>
 </div>
-<div class="container flex-column-center-center">
-    <label th:text="'Expenses balance for group ' + ${group.name}"/>
-    <div class="balanceContainer flex-row-center-center">
 
-        <div class="groups flex-row-center-center">
-            <label>Expenses list</label>
-            <div class="element flex-row-center-center" th:each="expense, iterStat : ${expenses}">
-                <img th:src="${#strings.isEmpty(expense.photoUrl) ? '/images/default_image.png' : expense.photoUrl}" alt=" " class="photo"/>
-                <label th:text="${expense.name}"/>
-                <label th:text="${expense.amount}"/>
-                <label th:text="'Paid by ' + ${expense.paidBy.name}"/>
+<div class="container">
+    <div class="groupHeadline">
+        <label>EXPENSES BALANCE</label>
+    </div>
+    <div class="flex-left">
+        <div class="elementContainer">
+            <div class="elementHeadline">
+                <label>Expenses</label>
+            </div>
+            <div class="elements">
+                <div class="element" th:each="expense, iterStat : ${expenses}">
+                    <img th:src="${#strings.isEmpty(expense.photoUrl) ? '/images/default_image.png' : expense.photoUrl}" alt=" " class="photo"/>
+                    <label th:text="${expense.name}"/>
+                    <label th:text="${expense.amount}"/>
+                    <label>Paid by </label>
+                    <img th:src="${#strings.isEmpty(expense.paidBy.photo_url) ? '/images/default_image.png' : expense.paidBy.photo_url}" alt=" " class="photo"/>
+                    <label th:text="' ' + ${expense.paidBy.name}"/>
+                </div>
             </div>
         </div>
-
-        <div class="balances flex-row-center-center">
-            <label>Balance</label>
-            <div class="balance flex-column-center-center" th:each="balance, iterStat : ${balances}">
-                <div class="flex-row-center-center">
+        <div class="elementContainer">
+            <div class="elementHeadline">
+                <label>Balances</label>
+            </div>
+            <div class="elements">
+                <div class="element" th:each="balance, iterStat : ${balances}">
+                    <img th:src="${#strings.isEmpty(balance.lender.photoUrl) ? '/images/default_image.png' : balance.lender.photoUrl}" alt=" " class="photo"/>
                     <label th:text="${balance.lender.name} + ' gets'"/>
                     <label th:text="${balance.amount}"/>
-                    <label th:text="'from ' + ${balance.debtor.name}"/>
+                    <label>from </label>
+                    <img th:src="${#strings.isEmpty(balance.debtor.photoUrl) ? '/images/default_image.png' : balance.debtor.photoUrl}" alt=" " class="photo"/>
+                    <label th:text="' ' + ${balance.debtor.name}"/>
                 </div>
             </div>
         </div>
     </div>
-        <div class="homeButtons flex-row-center-center">
-            <form th:action="@{/groups}" class = "homeButtons">
-                <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Back</button>
+    <div class="flex-column-center-center">
+        <form th:action="@{/expenses/addExpense}">
+            <button class="elementButtons" type="submit"  th:value="${group.id}" th:name="selectedGroup"> Add Expense</button>
+        </form>
+        <div class="flex-row-center-center">
+            <form th:action="@{/export/expenses}">
+                <button class="secondElementButtons" type="submit"  th:value="${group.id}" th:name="selectedGroup">Export Expenses</button>
             </form>
-            <form th:action="@{/expenses/addExpense}" class = "homeButtons">
-                <button type="submit"  th:value="${group.id}" th:name="selectedGroup"> Add Expense</button>
+            <form th:action="@{/import/expenses}" >
+                <button class="secondElementButtons" type="submit"  th:value="${group.id}" th:name="selectedGroup">Import Expenses</button>
             </form>
         </div>
-
+    </div>
 </div>
 
 </body>

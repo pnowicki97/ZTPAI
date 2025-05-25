@@ -42,7 +42,7 @@ public class ExpensePageController {
 
         model.addAttribute("users",userDtoList);
 
-        return "desktop-add-expense";
+        return "add-expense-page";
     }
     @PostMapping("/addExpenses")
     public String addExpense(@ModelAttribute("expense") ExpenseDto expenseDto, @RequestParam("userId") String userId, @RequestParam(required = false) List<String> userIds, @RequestParam("groupId") String groupId, @RequestParam("photoFile") MultipartFile photoFile, Model model) throws IOException {
@@ -70,7 +70,7 @@ public class ExpensePageController {
 
         if (expenseDto.name().isEmpty()||expenseDto.amount() == null||userId.isEmpty()){
             model.addAttribute("message", "Name, amount and paid by can not be empty");
-            return "desktop-add-expense";
+            return "add-expense-page";
         }
         if (groupId != null && !userIds.isEmpty()) {
             expenseService.saveExpense(expenseDto, userId, groupId, userIds, "/images/" + photoFile.getOriginalFilename());
@@ -79,7 +79,7 @@ public class ExpensePageController {
             expenseService.saveExpense(expenseDto, userId, groupId, "/images/" + photoFile.getOriginalFilename());
             }
         else
-            return "desktop-add-expense";
+            return "add-expense-page";
         return "redirect:/groups?selectedGroup=" + groupId;
     }
 

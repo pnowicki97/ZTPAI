@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     const photoFileInput = document.getElementById('photoFile');
     const fileUploadText = document.getElementById('file-upload-text');
-    const fileNameDisplay = document.getElementById('photo');
+    const fileNameDisplay = document.getElementById('file-name');
 
     if (photoFileInput && fileUploadText && fileNameDisplay) {
         photoFileInput.addEventListener('change', function() {
             if (this.files && this.files.length > 0) {
-                fileNameDisplay.textContent = 'Selected photo: ' + this.files[0].name;
-                fileUploadText.textContent = 'Change photo';
+                fileNameDisplay.textContent = 'Selected file: ' + this.files[0].name;
+                fileUploadText.textContent = 'Change file';
             } else {
                 fileNameDisplay.textContent = '';
-                fileUploadText.textContent = 'Choose photo';
+                fileUploadText.textContent = 'Choose file';
             }
         });
     }

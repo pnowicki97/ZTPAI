@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/main.css">
+</head>
+
+<body>
+
+<div class="menu">
+    <form th:action="@{/duties/dutiesOverview}">
+        <button type="submit"  th:value="${selectedGroup}" th:name="selectedGroup"> Back</button>
+    </form>
+    <form th:action="@{/users}">
+        <button>Home</button>
+    </form>
+    <form th:action="@{/users/changeUser}">
+        <button>Your account</button>
+    </form>
+        <form th:action="@{/auth/login}">
+            <button class="logoutButton" type="submit">Log out</button>
+        </form>
+</div>
+
+    <div class="container">
+        <div class="groupHeadline">
+            <label>IMPORT DUTIES</label>
+        </div>
+        <form id="data" th:action="@{/import/duties}" method="POST" enctype="multipart/form-data" class="loginForm">
+            <label for="photoFile" class="photoInput">
+                <input type="file" id="photoFile" name="photoFile" accept=".csv" form="data" style="display: none;"/>
+                <span id="file-upload-text">Choose File</span>
+            </label>
+            <span id="file-name"></span>
+            <label th:text="${message}"></label>
+        </form>
+        <button class="elementButtons" th:value="${selectedGroup}" th:name="selectedGroup" type="submit" form="data">Import</button>
+    </div>
+    <script th:src="@{/js/form.js}"></script>
+</body>
+</html>
